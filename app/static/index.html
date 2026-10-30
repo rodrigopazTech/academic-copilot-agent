@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Copilot Agent | LangChain Multi-Tool Architecture</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Navbar -->
+  <header class="border-b border-slate-800 bg-slate-900/70 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+        <i class="fa-solid fa-robot text-white text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+          Academic Copilot Agent
+        </h1>
+        <p class="text-xs text-indigo-400 font-medium flex items-center gap-1.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          LangChain Multi-Tool Agent • Syllabus Auditing & Synthesis
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4 text-xs font-semibold">
+      <span id="badge-mode" class="px-2.5 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/50 text-indigo-300">
+        Mode: <span id="mode-text">Autonomous Simulation</span>
+      </span>
+      <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+        <i class="fa-solid fa-book-open"></i> Swagger API
+      </a>
+      <a href="https://github.com/rodrigopazTech/academic-copilot-agent" target="_blank" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
+        <i class="fa-brands fa-github"></i> Repository
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left Column: Controls & Execution Trace (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col space-y-6">
+
+      <!-- Action Card -->
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl backdrop-blur-sm">
+        <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-play text-indigo-400"></i> Orquestador del Agente
+        </h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Curso / Cohorte Académica</label>
+            <select id="course-select" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Ciencia de Datos">26-1 Ciencia de Datos (Grupo Jueves)</option>
+              <option value="Python Avanzado">Diplomado en Python Avanzado</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Sesión Objetivo</label>
+            <input type="text" id="recording-input" value="rec-2026-09-04-clase-08" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-xs">
+          </div>
+
+          <button id="btn-run-agent" class="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white shadow-lg shadow-indigo-500/25 transition duration-200 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-brain"></i>
+            <span>Ejecutar Agente Autónomo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Agent Thought Stream -->
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl backdrop-blur-sm flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-terminal text-cyan-400"></i> Traza de Razonamiento (ReAct)
+          </h2>
+          <span id="trace-counter" class="text-xs font-mono text-slate-500">0 Pasos</span>
+        </div>
+
+        <div id="trace-container" class="space-y-3 overflow-y-auto max-h-[520px] pr-1 flex-1">
+          <div class="p-4 rounded-xl border border-dashed border-slate-800 text-center text-slate-500 text-xs py-10">
+            Presiona <strong>"Ejecutar Agente Autónomo"</strong> para visualizar el ciclo interactivo de Razonamiento, Llamadas a Herramientas y Observaciones de LangChain.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Audit Dashboard & Continuity Package (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col space-y-6">
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center space-x-2 border-b border-slate-800 pb-2">
+        <button id="tab-btn-audit" class="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-chart-line"></i> Auditoría de Temario
+        </button>
+        <button id="tab-btn-commitments" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-list-check"></i> Compromisos y Tareas
+        </button>
+        <button id="tab-btn-package" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-box-archive"></i> Material Clase 9
+        </button>
+        <button id="tab-btn-chat" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-comments"></i> Copilot Chat
+        </button>
+      </div>
+
+      <!-- Tab Content 1: Syllabus Audit -->
+      <div id="tab-content-audit" class="space-y-6">
+        
+        <!-- Pacing Header Card -->
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl backdrop-blur-sm">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs text-indigo-400 font-mono tracking-wide uppercase">Diagnóstico de Ritmo Académico</span>
+              <h3 id="class-title-display" class="text-base font-bold text-white mt-1">26-1 Ciencia de Datos - Sesión 8</h3>
+              <p id="class-date-display" class="text-xs text-slate-400 mt-0.5">Fecha: 04 de Septiembre, 2026</p>
+            </div>
+            <div id="pacing-badge" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-950/80 border border-amber-600/60 text-amber-300 flex items-center gap-1.5 shadow-inner">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span id="pacing-status-text">Behind Schedule</span>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-xs text-slate-300 leading-relaxed">
+            <p id="pacing-explanation-text">
+              La sesión cubrió intensamente la recapitulación de <code>.loc</code> y <code>.iloc</code> junto con limpieza de nulos con <code>isna()</code> y <code>fillna()</code>. Sin embargo, el tiempo no alcanzó para finalizar duplicados con <code>drop_duplicates()</code> ni el laboratorio de e-commerce.
+            </p>
+          </div>
+
+          <div class="mt-4 p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-700/40 text-xs text-indigo-200 flex items-start gap-2.5">
+            <i class="fa-solid fa-lightbulb text-indigo-400 mt-0.5"></i>
+            <div>
+              <strong class="font-semibold text-white">Recomendación Pedagógica del Agente:</strong>
+              <p id="pacing-recommendation-text" class="mt-0.5 text-slate-300">
+                Impartir una sesión de continuación práctica ('Clase 9: Continuación de Limpieza') antes de introducir GroupBy y Tablas Pivote.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topics Breakdown -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Covered Topics -->
+          <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 shadow-xl">
+            <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-check"></i> Conceptos Consolidados
+            </h4>
+            <div id="covered-topics-list" class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
+                <span class="font-semibold text-white">Recapitulación .loc vs .iloc</span>
+                <p class="text-slate-400 mt-0.5">Regla nemotécnica por etiquetas vs posiciones numéricas.</p>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
+                <span class="font-semibold text-white">Diagnóstico de Nulos con isna().sum()</span>
+                <p class="text-slate-400 mt-0.5">Colapso por eje de filas vs suma total.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Topics -->
+          <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 shadow-xl">
+            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <i class="fa-solid fa-clock-rotate-left"></i> Temas Rezagados a Subsanar
+            </h4>
+            <div id="pending-topics-list" class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg bg-amber-950/30 border border-amber-800/40 text-amber-200">
+                • Detección y eliminación de duplicados con drop_duplicates(subset=[...])
+              </div>
+              <div class="p-2.5 rounded-lg bg-amber-950/30 border border-amber-800/40 text-amber-200">
+                • Filtrado multivariable complejo con máscaras booleanas (& y |)
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tab Content 2: Commitments -->
+      <div id="tab-content-commitments" class="space-y-4 hidden">
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-indigo-400"></i> Compromisos y Acuerdos Extraídos del Diálogo
+          </h3>
+          <div id="commitments-container" class="space-y-3">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Next Class Package -->
+      <div id="tab-content-package" class="space-y-4 hidden">
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <span class="text-xs text-indigo-400 font-mono">Continuidad Sintetizada por IA</span>
+              <h3 id="package-title" class="text-base font-bold text-white">Clase 9: Continuación Práctica</h3>
+            </div>
+            <button id="btn-copy-code" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-300 border border-slate-700 flex items-center gap-1.5 transition">
+              <i class="fa-regular fa-copy"></i> Copiar Código Demo
+            </button>
+          </div>
+
+          <p id="package-objective" class="text-xs text-slate-300 mb-4">
+            Consolidar el dominio de duplicados, imputación selectiva y filtros booleanos multivariables.
+          </p>
+
+          <div class="rounded-xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs overflow-x-auto text-emerald-300 max-h-[350px]">
+            <pre><code id="package-code"># El código de demostración para la clase 9 se cargará al ejecutar el agente...</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Chat -->
+      <div id="tab-content-chat" class="space-y-4 hidden flex-1 flex flex-col">
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-xl flex-1 flex flex-col h-[520px]">
+          <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2 mb-4 text-xs">
+            <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-200">
+              👋 ¡Hola! Soy tu <strong>Academic Copilot Agent</strong>. Pregúntame sobre el avance del temario, compromisos de la clase 8 o solicita el código para la clase 9.
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" id="chat-input" placeholder="Pregunta al agente (ej: ¿qué pendientes tenemos con los alumnos?)..." class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <button id="btn-send-chat" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950/80 py-4 px-6 text-center text-xs text-slate-500">
+    Academic Copilot Agent • Autonomous Multi-Tool AI Agent built with <strong>LangChain</strong>, <strong>FastAPI</strong> & <strong>Pydantic</strong> • Portfolio Project by <strong>Rodrigo Paz</strong>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

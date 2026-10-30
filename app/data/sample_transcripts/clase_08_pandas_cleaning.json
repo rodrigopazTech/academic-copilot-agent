@@ -1,0 +1,46 @@
+{
+  "recording_id": "rec-2026-09-04-clase-08",
+  "course_id": "python-ds-2026",
+  "title": "26-1 Ciencia de Datos - Grabación Sesión 8 (Jueves)",
+  "date": "2026-09-04",
+  "duration_minutes": 115,
+  "attendees_count": 24,
+  "transcript_summary": "En esta clase el profesor Rodrigo Paz comenzó recapitulando la diferencia clave entre .loc y .iloc para asegurar que todos los alumnos dominen la selección por etiquetas versus índices posicionales. Posteriormente, se abordó el diagnóstico sistemático de datos nulos con isna().sum(). Los alumnos tenían dudas sobre cuándo borrar filas con dropna() y cuándo imputar valores con fillna(). Por falta de tiempo, no se alcanzaron a ver en profundidad los métodos drop_duplicates() con subset ni el caso práctico completo de e-commerce, por lo que el profesor acordó dedicar la siguiente sesión como Clase 9 de continuación práctica antes de pasar a agrupaciones con groupby.",
+  "dialogue_segments": [
+    {
+      "timestamp": "00:03:15",
+      "speaker": "Profesor Rodrigo",
+      "text": "Buenas tardes a todos. Antes de continuar con la limpieza profunda, quiero que repitamos la regla de oro: si conozco el nombre de la columna o el índice uso .loc; si quiero acceder por la posición numérica en memoria uso .iloc."
+    },
+    {
+      "timestamp": "00:18:40",
+      "speaker": "Alumno Carlos",
+      "text": "Profesor, una duda con isna(). Cuando hago df.isna().sum(), ¿por qué me da la suma por columna y no un total global de toda la tabla?"
+    },
+    {
+      "timestamp": "00:20:10",
+      "speaker": "Profesor Rodrigo",
+      "text": "Excelente pregunta, Carlos. .sum() por defecto colapsa sobre el eje 0 (filas). Si quieres el total global harías .isna().sum().sum(). Apunten esto porque viene en el ejercicio."
+    },
+    {
+      "timestamp": "00:48:22",
+      "speaker": "Profesor Rodrigo",
+      "text": "Vamos a imputar Metodo_Pago usando fillna('No Especificado'). Pero mucho ojo: en la columna Estado tenemos nulos que no podemos inventar, así que ahí aplicamos dropna(subset=['Estado']). Siempre hagan .copy() para evitar la advertencia de SettingWithCopyWarning."
+    },
+    {
+      "timestamp": "01:12:05",
+      "speaker": "Alumna Mariana",
+      "text": "Profesor, ¿la tarea 4 sobre el dataset de ventas de e-commerce se entrega este domingo o nos da unos días más porque aún no vemos duplicados?"
+    },
+    {
+      "timestamp": "01:14:30",
+      "speaker": "Profesor Rodrigo",
+      "text": "Tienen toda la razón. Como hoy solo cubrimos nulos y no alcanzamos a terminar drop_duplicates() ni el filtrado multivariable, extendemos la entrega de la Tarea 4 hasta el próximo martes. El próximo jueves haremos una sesión de continuación práctica para cerrar este tema con broche de oro y subir el script al repositorio."
+    },
+    {
+      "timestamp": "01:45:00",
+      "speaker": "Profesor Rodrigo",
+      "text": "Me llevo de compromiso prepararles un dataset con valores corruptos reales y la guía con código comentado en GitHub para que practiquen el fin de semana. Nos vemos el jueves."
+    }
+  ]
+}

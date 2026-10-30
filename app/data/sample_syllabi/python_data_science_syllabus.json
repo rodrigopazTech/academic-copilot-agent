@@ -1,0 +1,104 @@
+{
+  "course_id": "python-ds-2026",
+  "course_name": "Diplomado en Ciencia de Datos con Python",
+  "academic_cycle": "2026-1",
+  "total_classes": 16,
+  "modules": [
+    {
+      "module_id": 1,
+      "title": "Fundamentos de Python y Algoritmos",
+      "classes": [
+        {
+          "class_num": 1,
+          "topic": "Introducción al entorno y tipos de datos primitivos",
+          "learning_objectives": ["Variables", "Tipos int, float, str, bool", "Operaciones básicas"],
+          "deliverables": ["Configuración de entorno en VS Code / Jupyter"]
+        },
+        {
+          "class_num": 2,
+          "topic": "Estructuras de Control y Colecciones",
+          "learning_objectives": ["Condicionales if/else", "Bucles for y while", "Listas, tuplas y diccionarios"],
+          "deliverables": ["Ejercicio de manipulación de diccionarios"]
+        },
+        {
+          "class_num": 3,
+          "topic": "Funciones, Modularidad y Manejo de Errores",
+          "learning_objectives": ["Definición de funciones", "Parámetros y retornos", "try/except blocks"],
+          "deliverables": ["Calculadora modular con control de excepciones"]
+        }
+      ]
+    },
+    {
+      "module_id": 2,
+      "title": "Computación Numérica con NumPy",
+      "classes": [
+        {
+          "class_num": 4,
+          "topic": "Arreglos N-Dimensionales y Vectorización",
+          "learning_objectives": ["np.ndarray", "Broadcasting", "Indexación booleana en matrices"],
+          "deliverables": ["Laboratorio de operaciones matriciales vectorizadas"]
+        },
+        {
+          "class_num": 5,
+          "topic": "Álgebra Lineal y Estadísticas con NumPy",
+          "learning_objectives": ["Media, varianza, percentiles", "Multiplicación de matrices", "Generación de datos aleatorios"],
+          "deliverables": ["Simulador de Monte Carlo básico"]
+        }
+      ]
+    },
+    {
+      "module_id": 3,
+      "title": "Manipulación y Limpieza de Datos con Pandas",
+      "classes": [
+        {
+          "class_num": 6,
+          "topic": "Series, DataFrames y Lectura de Archivos",
+          "learning_objectives": ["pd.Series", "pd.DataFrame", "Lectura de CSV, Excel y JSON"],
+          "deliverables": ["Carga de dataset real de ventas"]
+        },
+        {
+          "class_num": 7,
+          "topic": "Indexación Avanzada, Selección y Slicing",
+          "learning_objectives": ["Diferencia entre .loc e .iloc", "Filtrado por máscaras booleanas", "Selección condicional compleja"],
+          "deliverables": ["Script de filtrado por segmentos de clientes"]
+        },
+        {
+          "class_num": 8,
+          "topic": "Diagnóstico y Limpieza de Datos Faltantes y Duplicados",
+          "learning_objectives": ["isna().sum()", "dropna() con subset", "fillna() con imputación", "duplicated() y drop_duplicates()"],
+          "deliverables": ["Pipeline de saneamiento de datos sucios (e-commerce)"]
+        },
+        {
+          "class_num": 9,
+          "topic": "Agrupaciones, Agregaciones y Tablas Pivote",
+          "learning_objectives": ["groupby()", "Método agg() múltiple", "pivot_table()", "cross-tabulations"],
+          "deliverables": ["Reporte ejecutivo de métricas por sucursal"]
+        },
+        {
+          "class_num": 10,
+          "topic": "Transformación, Merging y Concatenación",
+          "learning_objectives": ["pd.merge (inner, outer, left, right)", "pd.concat", "Manejo de fechas y pd.to_datetime"],
+          "deliverables": ["Integración relacional de tablas de clientes y pedidos"]
+        }
+      ]
+    },
+    {
+      "module_id": 4,
+      "title": "Visualización y Proyecto Integrador",
+      "classes": [
+        {
+          "class_num": 11,
+          "topic": "Visualización Exploratoria con Matplotlib y Seaborn",
+          "learning_objectives": ["Histogramas, dispersión, boxplots", "Personalización de estilos y paletas"],
+          "deliverables": ["Dashboard visual estático"]
+        },
+        {
+          "class_num": 12,
+          "topic": "Proyecto Integrador y Presentación de Hallazgos",
+          "learning_objectives": ["Storytelling con datos", "Limpieza end-to-end", "Insights de negocio"],
+          "deliverables": ["Entrega final de repositorio y notebook documentado"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+services:
+  academic-copilot:
+    build: .
+    container_name: academic-copilot-agent
+    ports:
+      - "8000:8000"
+    environment:
+      - MOCK_MODE=true
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./generated_reports:/app/generated_reports
+    restart: unless-stopped

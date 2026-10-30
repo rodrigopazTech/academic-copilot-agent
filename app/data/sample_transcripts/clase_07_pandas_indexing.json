@@ -1,0 +1,31 @@
+{
+  "recording_id": "rec-2026-08-28-clase-07",
+  "course_id": "python-ds-2026",
+  "title": "26-1 Ciencia de Datos - Grabación Sesión 7 (Jueves)",
+  "date": "2026-08-28",
+  "duration_minutes": 110,
+  "attendees_count": 26,
+  "transcript_summary": "Sesión enfocada en selección e indexación de DataFrames en Pandas. Se revisaron selecciones por series individuales, sintaxis de corchetes dobles para obtener DataFrames, y se profundizó en la diferencia entre .loc y .iloc con máscaras booleanas. Se asignó la Tarea 3 de filtrado de clientes y se acordó que en la siguiente sesión se empezaría con limpieza de nulos.",
+  "dialogue_segments": [
+    {
+      "timestamp": "00:05:00",
+      "speaker": "Profesor Rodrigo",
+      "text": "Bienvenidos al módulo de indexación. Hoy veremos por qué .loc y .iloc son los métodos más importantes para manipular matrices tabulares en Python."
+    },
+    {
+      "timestamp": "00:45:10",
+      "speaker": "Alumno Jorge",
+      "text": "¿Cómo combino dos condiciones en .loc? ¿Uso 'and' o '&'?"
+    },
+    {
+      "timestamp": "00:46:00",
+      "speaker": "Profesor Rodrigo",
+      "text": "En Pandas siempre usamos el ampersand bitwise '&' y encerramos cada condición en paréntesis. Por ejemplo: (df['edad'] > 25) & (df['ciudad'] == 'CDMX')."
+    },
+    {
+      "timestamp": "01:30:00",
+      "speaker": "Profesor Rodrigo",
+      "text": "Para el siguiente jueves comenzaremos con datos faltantes. Descarguen la librería missingno si quieren explorar visualizaciones de nulos."
+    }
+  ]
+}
